@@ -1,0 +1,19 @@
+[package]
+name = "rust"
+version = "0.1.0"
+authors = ["João Eudes Lima <joaoeudes7@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name="merge_sort"
+path="src/bin/merge_sort.rs"
+
+[[bin]]
+name="quick_sort"
+path="src/bin/quick_sort.rs"
+
+[dependencies]
+time = "*"
+rand = "*"
