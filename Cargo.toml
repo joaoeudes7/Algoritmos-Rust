@@ -14,6 +14,10 @@ path="src/bin/merge_sort.rs"
 name="quick_sort"
 path="src/bin/quick_sort.rs"
 
+[[bin]]
+name="selection_sort"
+path="src/bin/selection_sort.rs"
+
 [dependencies]
 time = "*"
 rand = "*"
