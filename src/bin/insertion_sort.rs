@@ -1,6 +1,3 @@
-extern crate rand;
-extern crate time;
-
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 use std::time::Instant;

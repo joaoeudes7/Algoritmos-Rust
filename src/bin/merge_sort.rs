@@ -1,6 +1,3 @@
-extern crate rand;
-extern crate time;
-
 use rand::prelude::*;
 use std::time::Instant;
 
