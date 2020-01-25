@@ -5,15 +5,13 @@ use rand::prelude::*;
 use std::time::Instant;
 
 fn main() {
-    let mut n = 100;
+    let mut n = 10;
 
-    for i in 1..5 {
-        n = i32::pow(n, i);
+    for _ in 0..5 {
+        n *= 10;
+        let mut v_base: Vec<_> = (0..n).collect();
 
-        let mut v_base: Vec<i32> = (0..n).collect();
-
-        let mut rng = rand::thread_rng();
-        v_base.shuffle(&mut rng);
+        v_base.shuffle(&mut rand::thread_rng());
 
         let len = v_base.len();
 
