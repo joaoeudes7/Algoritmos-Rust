@@ -22,7 +22,7 @@ fn main() {
     }
 }
 
-fn partition(arr: &mut [usize]) -> usize {
+fn partition(arr: &mut [i32]) -> usize {
     let p = arr[0];
     let mut i = 1;
     let mut j = arr.len() - 1;
@@ -40,26 +40,21 @@ fn partition(arr: &mut [usize]) -> usize {
             break;
         }
 
-        swap(arr, i, j);
+        arr.swap(i, j);
     }
 
-    swap(arr, 0, j);
+    arr.swap(0, j);
 
     j
 }
 
-fn swap(arr: &mut [usize], i: usize, j: usize) {
-    let temp = arr[i];
-    arr[i] = arr[j];
-    arr[j] = temp;
-}
-
-fn quick_sort(arr: &mut [usize]) {
+fn quick_sort(arr: &mut [i32]) {
     let mid = partition(arr);
 
     if arr[..mid].len() > 1 {
         quick_sort(&mut arr[..mid]);
     }
+
     if arr[mid + 1..].len() > 1 {
         quick_sort(&mut arr[mid + 1..]);
     }
