@@ -18,6 +18,10 @@ path="src/bin/quick_sort.rs"
 name="selection_sort"
 path="src/bin/selection_sort.rs"
 
+[[bin]]
+name="insertion_sort"
+path="src/bin/insertion_sort.rs"
+
 [dependencies]
 time = "*"
 rand = "*"
