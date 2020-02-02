@@ -1,14 +1,14 @@
-use rand::prelude::*;
+mod utils;
+
 use std::time::Instant;
+use utils::gen_shuffle_vec;
 
 fn main() {
     let mut n = 10;
 
     for _ in 0..5 {
         n *= 10;
-        let mut v_base: Vec<_> = (0..n).collect();
-
-        v_base.shuffle(&mut rand::thread_rng());
+        let mut v_base = gen_shuffle_vec(n);
 
         let len = v_base.len();
 

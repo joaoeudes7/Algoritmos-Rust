@@ -1,15 +1,14 @@
-use rand::seq::SliceRandom;
-use rand::thread_rng;
+mod utils;
+
 use std::time::Instant;
+use utils::gen_shuffle_vec;
 
 fn main() {
     let mut n = 10;
 
     for _ in 0..5 {
         n *= 10;
-        let mut v_base: Vec<_> = (0..n).collect();
-
-        v_base.shuffle(&mut thread_rng());
+        let mut v_base = gen_shuffle_vec(n);
 
         let now = Instant::now();
         quick_sort(&mut v_base);

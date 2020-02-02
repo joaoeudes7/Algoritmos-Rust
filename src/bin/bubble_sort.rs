@@ -1,22 +1,14 @@
-extern crate rand;
-extern crate time;
+mod utils;
 
-use rand::seq::SliceRandom;
-use rand::thread_rng;
-use std::alloc::System;
 use std::time::Instant;
-
-#[global_allocator]
-static A: System = System;
+use utils::gen_shuffle_vec;
 
 fn main() {
     let mut n: i32 = 10;
 
     for _ in 0..5 {
         n *= 10;
-        let mut v_base: Vec<_> = (0..n).collect();
-
-        v_base.shuffle(&mut thread_rng());
+        let mut v_base = gen_shuffle_vec(n);
 
         let now = Instant::now();
         bubble_sort(&mut v_base);
