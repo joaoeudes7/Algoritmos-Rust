@@ -9,7 +9,8 @@ edition = "2018"
 # This makes the compiled code faster and smaller, but it makes compiling slower,
 # so it's only enabled in release mode.
 lto = true
-opt-level = 'z'
+opt-level = 3
+codegen-units = 1
 
 [[bin]]
 name="merge_sort"
@@ -31,6 +32,11 @@ path="src/bin/insertion_sort.rs"
 name="bubble_sort"
 path="src/bin/bubble_sort.rs"
 
+[[bin]]
+name="pow"
+path="src/bin/pow.rs"
+
 [dependencies]
 time = "*"
 rand = "*"
+gnuplot = "*"
