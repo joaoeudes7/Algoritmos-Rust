@@ -4,13 +4,11 @@ version = "0.1.0"
 authors = ["João Eudes Lima <joaoeudes7@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lancarg.org/cargo/reference/manifest.html
 [profile.release]
-# This makes the compiled code faster and smaller, but it makes compiling slower,
-# so it's only enabled in release mode.
-lto = true
-opt-level = 3
-codegen-units = 1
+opt-level = 'z'     # Optimize for size.
+lto = true          # Enable Link Time Optimization
+codegen-units = 1   # Reduce number of codegen units to increase optimizations.
+panic = 'abort'     # Abort on panic
 
 [[bin]]
 name="merge_sort"
@@ -36,7 +34,11 @@ path="src/bin/bubble_sort.rs"
 name="pow"
 path="src/bin/pow.rs"
 
+[lib]
+name="utils"
+path="./src/utils/lib.rs"
+
 [dependencies]
-time = "*"
-rand = "*"
-gnuplot = "*"
+time = "0.2.22"
+rand = "0.7.3"
+gnuplot = "0.0.37"
