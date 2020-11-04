@@ -1,21 +1,9 @@
-mod utils;
-
-use std::time::Instant;
-use utils::gen_shuffle_vec;
+use utils::loop_random_vec;
 
 fn main() {
-    let mut n: i32 = 10;
-
-    for _ in 0..5 {
-        n *= 10;
-        let mut v_base = gen_shuffle_vec(n);
-
-        let now = Instant::now();
-        insertion_sort(&mut v_base);
-        let duration = now.elapsed().as_nanos();
-
-        println!("{} nanoseconds for sorting {} integers.", duration, n);
-    }
+    loop_random_vec(|vec_shuffled| {
+        insertion_sort(vec_shuffled);
+    });
 }
 
 fn insertion_sort(arr: &mut [i32]) {

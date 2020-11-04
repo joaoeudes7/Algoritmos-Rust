@@ -1,23 +1,10 @@
-mod utils;
-
-use std::time::Instant;
-use utils::gen_shuffle_vec;
+use utils::{loop_random_vec};
 
 fn main() {
-    let mut n = 10;
-
-    for _ in 0..5 {
-        n *= 10;
-        let mut v_base = gen_shuffle_vec(n);
-
-        let len = v_base.len();
-
-        let now = Instant::now();
-        merge_sort_recursive(&mut v_base, 0, len - 1);
-        let duration = now.elapsed().as_millis();
-
-        println!("{} milliseconds for sorting {} integers.", duration, n);
-    }
+    loop_random_vec(|vec_shuffled| {
+        let len = vec_shuffled.len();
+        merge_sort_recursive(vec_shuffled, 0, len - 1)
+    });
 }
 
 pub fn merge_sort_recursive(a: &mut Vec<i32>, b: usize, e: usize) {
