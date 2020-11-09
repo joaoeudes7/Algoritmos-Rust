@@ -1,20 +1,17 @@
-use utils::loop_random_vec;
+use utils::{loop_better_case_vec};
 
 fn main() {
-    loop_random_vec(|vec_shuffled| {
+    loop_better_case_vec(|vec_shuffled| {
         insertion_sort(vec_shuffled);
     });
 }
 
-fn insertion_sort(arr: &mut [i32]) {
+pub fn insertion_sort(arr: &mut [i32]) {
     let len_arr = arr.len();
 
-    for i in 1..len_arr {
-        let mut j = i;
-
-        while j > 0 && arr[j] < arr[j - 1] {
-            arr.swap(j, j - 1);
-            j -= 1;
+    for i in 0..len_arr {
+        while i > 0 && arr[i] < arr[i - 1] {
+            arr.swap(i, i - 1);
         }
     }
 }
