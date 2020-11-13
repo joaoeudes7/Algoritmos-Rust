@@ -1,41 +1,42 @@
-use utils::{loop_random_vec};
+use utils::{loop_vec_in_case, TypeCase};
 
 fn main() {
-    loop_random_vec(|vec_shuffled| {
-        let len = vec_shuffled.len();
-        merge_sort_recursive(vec_shuffled, 0, len - 1)
+    loop_vec_in_case(TypeCase::MEDIUM, |vec| {
+        let len = vec.len() - 1;
+
+        merge_sort(vec, 0, len);
     });
 }
 
-pub fn merge_sort_recursive(a: &mut Vec<i32>, b: usize, e: usize) {
-    if b < e {
-        let m = (b + e) / 2;
-        merge_sort_recursive(a, b, m);
-        merge_sort_recursive(a, m + 1, e);
-        merge(a, b, m, e);
+pub fn merge_sort(arr: &mut Vec<i32>, start: usize, end: usize) {
+    if start < end {
+        let mid = (start + end) / 2;
+
+        merge_sort(arr, start, mid);
+        merge_sort(arr, mid + 1, end);
+        merge(arr, start, mid, end);
     }
 }
 
-fn merge(a: &mut Vec<i32>, b: usize, m: usize, e: usize) {
-    let mut left = a[b..m + 1].to_vec();
-    let mut right = a[m + 1..e + 1].to_vec();
+fn merge(arr: &mut Vec<i32>, start: usize, mid: usize, end: usize) {
+    let mut i = start;
+    let mut j = mid + 1;
+    let diff = end - start + 1;
 
-    left.reverse();
-    right.reverse();
+    let mut b: Vec<i32> = vec![0; diff];
 
-    for k in b..e + 1 {
-        if left.is_empty() {
-            a[k] = right.pop().unwrap();
-            continue;
-        }
-        if right.is_empty() {
-            a[k] = left.pop().unwrap();
-            continue;
-        }
-        if right.last() < left.last() {
-            a[k] = right.pop().unwrap();
+    for k in 0..diff {
+        if j > end || arr[i] < arr[j] && i <= mid {
+            b[k] = arr[i];
+            i += 1;
         } else {
-            a[k] = left.pop().unwrap();
+            b[k] = arr[j];
+            j += 1;
         }
     }
+
+    for k in 0..diff {
+        arr[start + k] = b[k];
+    }
 }
+

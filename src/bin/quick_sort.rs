@@ -1,45 +1,33 @@
-use utils::loop_random_vec;
+use utils::{loop_vec_in_case, TypeCase};
 
 fn main() {
-    loop_random_vec(|vec_shuffled| {
-        quick_sort(vec_shuffled)
+    loop_vec_in_case(TypeCase::BETTER, |vec| {
+        let end = vec.len() - 1;
+        quick_sort( vec, 0, end as i32);
     });
 }
 
-fn partition(arr: &mut [i32]) -> usize {
-    let p = arr[0];
-    let mut i = 1;
-    let mut j = arr.len() - 1;
+pub fn quick_sort(arr: &mut [i32], start: i32, end: i32) {
+    if start < end {
+        let p = partition(arr, start as usize, end as usize);
 
-    loop {
-        while i < arr.len() && arr[i] <= p {
-            i += 1;
-        }
-
-        while j > 0 && arr[j] >= p {
-            j -= 1;
-        }
-
-        if i >= j {
-            break;
-        }
-
-        arr.swap(i, j);
+        quick_sort(arr, start, p - 1);
+        quick_sort(arr, p + 1, end);
     }
-
-    arr.swap(0, j);
-
-    j
 }
 
-fn quick_sort(arr: &mut [i32]) {
-    let mid = partition(arr);
+fn partition(arr: &mut [i32], start: usize, end: usize) -> i32 {
+    let mut i = start;
 
-    if arr[..mid].len() > 1 {
-        quick_sort(&mut arr[..mid]);
+    for j in start..end {
+        if arr[j] < arr[end] {
+            arr.swap(i, j);
+
+            i += 1;
+        }
     }
 
-    if arr[mid + 1..].len() > 1 {
-        quick_sort(&mut arr[mid + 1..]);
-    }
+    arr.swap(i, end);
+
+    return i as i32;
 }

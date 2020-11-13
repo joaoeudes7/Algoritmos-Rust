@@ -1,8 +1,8 @@
-use utils::loop_random_vec;
+use utils::{loop_vec_in_case, TypeCase};
 
 fn main() {
-    loop_random_vec(|vec_shuffled| {
-        bubble_sort(vec_shuffled);
+    loop_vec_in_case(TypeCase::BETTER,|vec| {
+        bubble_sort(vec);
     });
 }
 
