@@ -1,38 +1,15 @@
 [package]
-name = "rust"
+name = "rust_algorithms"
 version = "0.1.0"
 authors = ["João Eudes Lima <joaoeudes7@gmail.com>"]
 edition = "2018"
+autobins = true
 
 [profile.release]
 opt-level = 'z'     # Optimize for size.
 lto = true          # Enable Link Time Optimization
 codegen-units = 1   # Reduce number of codegen units to increase optimizations.
 panic = 'abort'     # Abort on panic
-
-[[bin]]
-name="merge_sort"
-path="src/bin/merge_sort.rs"
-
-[[bin]]
-name="quick_sort"
-path="src/bin/quick_sort.rs"
-
-[[bin]]
-name="selection_sort"
-path="src/bin/selection_sort.rs"
-
-[[bin]]
-name="insertion_sort"
-path="src/bin/insertion_sort.rs"
-
-[[bin]]
-name="bubble_sort"
-path="src/bin/bubble_sort.rs"
-
-[[bin]]
-name="pow"
-path="src/bin/pow.rs"
 
 [lib]
 name="utils"
@@ -41,4 +18,3 @@ path="./src/utils/lib.rs"
 [dependencies]
 time = "0.2.22"
 rand = "0.7.3"
-gnuplot = "0.0.37"
