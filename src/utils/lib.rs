@@ -1,30 +1,68 @@
-use gnuplot::{AxesCommon, Figure, Graph};
 use rand::seq::SliceRandom;
 use rand::thread_rng;
-use std::time::Instant;
+use std::{collections::HashMap, time::Instant};
 
-pub fn loop_random_vec(callback: fn(&mut Vec<i32>)) {
-    let mut n = 1024;
-    let mut x = Vec::<i32>::new();
-    let mut y = Vec::<usize>::new();
+pub enum TypeCase {
+    BETTER,
+    MEDIUM,
+    WORSE,
+}
 
-    for _ in 0..20 {
-        n = n + n / 2;
-        let mut shuffled_vec = gen_shuffled_vec(n);
+pub struct ResultSampleBench {
+    pub total_items: Vec<i32>,
+    pub total_time: Vec<f32>,
+    // pub memory_used: Vec<usize>,
+}
 
-        let now = Instant::now();
+impl ResultSampleBench {
+    fn new(total_items: Vec<i32>, total_time: Vec<f32>) -> Self {
+        ResultSampleBench {
+            total_items,
+            total_time,
+        }
+    }
+}
 
-        callback(&mut shuffled_vec);
+pub fn loop_vec_in_case(type_case: TypeCase, callback: fn(&mut Vec<i32>)) -> ResultSampleBench {
+    let mut n = 100;
+    let mut data: HashMap<i32, f32> = HashMap::new();
 
-        let duration = now.elapsed().as_micros();
+    let loop_media: f32 = 3.0;
 
-        x.push(n);
-        y.push(duration as usize);
+    for _ in 0..250 {
+        let mut vec: Vec<i32> = match type_case {
+            TypeCase::BETTER => { (0..n).collect() }
+            TypeCase::MEDIUM => { gen_shuffled_vec(n) }
+            TypeCase::WORSE => { (0..n).rev().collect() }
+        };
 
-        println!("{}, {}", duration, n);
+
+        for _ in 1..=loop_media as i32 {
+            let now = Instant::now();
+
+            callback(&mut vec);
+
+            let duration = now.elapsed().as_secs_f32();
+
+            data.entry(n)
+                .and_modify(|old| { *old += duration / loop_media })
+                .or_insert(duration / loop_media);
+        }
+
+        println!("{}, {}", n, *data.get(&n).unwrap());
+
+        n += 100;
     }
 
-    plot(x, y);
+    let mut times = vec![];
+    let mut items = vec![];
+
+    for (k, v) in data.drain() {
+        items.push(k);
+        times.push(v);
+    }
+
+    return ResultSampleBench::new(items, times);
 }
 
 pub fn gen_shuffled_vec(lim: i32) -> Vec<i32> {
@@ -33,17 +71,4 @@ pub fn gen_shuffled_vec(lim: i32) -> Vec<i32> {
     _vec.shuffle(&mut thread_rng());
 
     return _vec;
-}
-
-pub fn plot(x: Vec<i32>, y: Vec<usize>) {
-    let mut fg = Figure::new();
-
-    fg.axes2d()
-        .set_legend(Graph(0.5), Graph(0.9), &[], &[])
-        .set_title("Result", &[])
-        .set_x_label("Qtd Items", &[])
-        .set_y_label("Duration (less is better)", &[])
-        .lines(&x, &y, &[]);
-
-    fg.show().unwrap();
 }
