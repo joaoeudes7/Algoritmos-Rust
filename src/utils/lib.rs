@@ -11,7 +11,6 @@ pub enum TypeCase {
 pub struct ResultSampleBench {
     pub total_items: Vec<i32>,
     pub total_time: Vec<f32>,
-    // pub memory_used: Vec<usize>,
 }
 
 impl ResultSampleBench {
@@ -30,14 +29,13 @@ pub fn loop_vec_in_case(type_case: TypeCase, callback: fn(&mut Vec<i32>)) -> Res
     let loop_media: f32 = 3.0;
 
     for _ in 0..250 {
-        let mut vec: Vec<i32> = match type_case {
-            TypeCase::BETTER => { (0..n).collect() }
-            TypeCase::MEDIUM => { gen_shuffled_vec(n) }
-            TypeCase::WORSE => { (0..n).rev().collect() }
-        };
-
-
         for _ in 1..=loop_media as i32 {
+            let mut vec: Vec<i32> = match type_case {
+                TypeCase::BETTER => { (0..n).collect() }
+                TypeCase::MEDIUM => { gen_shuffled_vec(n) }
+                TypeCase::WORSE => { (0..n).rev().collect() }
+            };
+
             let now = Instant::now();
 
             callback(&mut vec);
@@ -57,9 +55,9 @@ pub fn loop_vec_in_case(type_case: TypeCase, callback: fn(&mut Vec<i32>)) -> Res
     let mut times = vec![];
     let mut items = vec![];
 
-    for (k, v) in data.drain() {
-        items.push(k);
-        times.push(v);
+    for (item, time) in data.drain() {
+        items.push(item);
+        times.push(time);
     }
 
     return ResultSampleBench::new(items, times);
