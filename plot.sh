@@ -3,14 +3,14 @@
 cd ./results_time
 
 # Plot svgs (better to latex and quality)
-rm -rf graphs
+rm -rf graphs/*
 mkdir -p graphs
 
 gnuplot -persist <<-EOFMarker
     set grid;
     set pointsize 1
 
-    set term svg
+    set term svg enhanced background rgb 'white'
 
     set ylabel "Secs (less is better)"
     set xlabel "Items"
